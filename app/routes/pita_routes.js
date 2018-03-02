@@ -1,64 +1,13 @@
-var ObjectID 	= require('mongodb').ObjectID;
-var useragent = require('express-useragent');
-var Report 		= require('../models/report.js');
+var report_controller = require('../controllers/reports_controller.js');
+var express = require('express');
+var router = express.Router();
 
-module.exports = function(app, db) {
-	app.use(useragent.express());
+router.get('/pita/:id', report_controller.report_details);
 
-	app.get('/pita/:id', (req, res)=> {
-		const id = req.params.id;
-		const details = { '_id': new ObjectID(id) };
-		db.collection('pita').findOne(details, (err, item) => {
-			if (err) {
-				res.send({'error': 'An error has occured'});
-			} else {
-				res.send(item);
-			}
-		});
-	});
+router.post('/pita', report_controller.report_create_post);
 
-	app.post('/pita', (req, res) => {
-		const pita = { text: req.body.body, title: req.body.title }
-		var newReport = new Report(
-			{
-				browser: req.useragent.browser,
-				version: req.useragent.version,
-				os: req.useragent.os,
-				platform: req.useragent.platform,
-				reportText: req.body.report
-			}
-		);
-    db.collection('pita').insert(newReport, (err, result)=> {
-    	if (err) {
-    		res.send({ 'error': 'An error has occured' });
-    	} else {
-    		res.send(result.ops[0]);
-    	}
-    })
-  });
+router.delete('/pita/:id', report_controller.delete_report);
 
-  app.delete('/pita/:id', (req, res) => {
-  	const id = req.params.id;
-		const details = { '_id': new ObjectID(id) };
-		db.collection('pita').remove(details, (err, item) => {
-			if (err) {
-				res.send({'error': 'An error has occured'});
-			} else {
-				res.send('Pita ' + id + ' deleted!');
-			}
-		});
-  });
+router.put('/pita/:id', report_controller.update_report);
 
-  app.put('/pita/:id', (req, res) => {
-  	const id = req.params.id;
-		const details = { '_id': new ObjectID(id) };
-		const pita = { text: req.body.body, title: req.body.title }
-		db.collection('pita').update(details, pita, (err, result) => {
-			if (err) {
-				res.send({'error': 'An error has occured'});
-			} else {
-				res.send(pita);
-			}
-		});
-  });
-};
+module.exports = router;
