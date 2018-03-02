@@ -1,6 +1,15 @@
 var useragent 	= require('express-useragent');
 var Report 			= require('../models/report.js');
 
+exports.list_reports = function(req, res) {
+	Report.find(function(err, report) {
+		if (err) {
+			res.send(err);
+		}
+		res.json(report);
+	});
+};
+
 exports.report_create_post = function(req, res) {
 	var newReport = new Report({
 		browser: req.useragent.browser,
@@ -13,24 +22,21 @@ exports.report_create_post = function(req, res) {
 		userEmail: req.body.email
 	});
 
-	db.collection('pita').insert(newReport, (err, result)=> {
+	newReport.save(function(err){
 		if (err) {
-			res.send({ 'error': 'An error has occured' });
-		} else {
-			res.send(result.ops[0]);
+			res.send(err);
 		}
+		res.json({ message: 'Report created' });
 	});
 };
 
 exports.report_details = function(req, res) {
 	const id = req.params.id;
-	const details = { '_id': new ObjectID(id) };
-	db.collection('pita').findOne(details, (err, item) => {
+	Report.findById(id, function(err, report){
 		if (err) {
-			res.send({'error': 'An error has occured'});
-		} else {
-			res.send(item);
+			res.send(err);
 		}
+		res.json(report);
 	});
 };
 
