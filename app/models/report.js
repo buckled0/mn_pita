@@ -1,15 +1,15 @@
-var Report = function (data) {
-	this.data = data;
-}
+var mongoose 	= require('mongoose');
+var Schema		= mongoose.Schema;
 
-Report.findById = function (id, callback) {
-	db.collection('pita').findOne(details, (err, data) => {
-		if (err) {
-			callback(err);
-		} else {
-			callback(null, new Report(data))
-		}
-	});
-}
+var ReportSchema = new Schema ({
+	browser: String,
+	version: String,
+	os: String,
+	platform: String,
+	reportText: String,
+	userId: Number,
+	username: String,
+	userEmail: String
+});
 
-module.exports = Report;
+module.exports = mongoose.model('Report', ReportSchema);

@@ -1,5 +1,8 @@
-const pitaRoutes = require('./pita_routes');
+var express = require('express');
+var router = express.Router();
 
-module.exports = function(app, db) {
-	pitaRoutes(app, db);
-};
+router.get('/', function(req, res) {
+  res.redirect('/pita');
+});
+
+module.exports = router;
