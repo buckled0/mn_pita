@@ -1,5 +1,4 @@
-var useragent 	= require('express-useragent');
-var Report 			= require('../models/report.js');
+var Report = require('../models/report.js');
 
 exports.list_reports = function(req, res) {
 	Report.find(function(err, report) {
@@ -26,7 +25,7 @@ exports.report_create_post = function(req, res) {
 		if (err) {
 			res.send(err);
 		}
-		res.json({ message: 'Report created' });
+		res.json({ message: 'Report created, id:' + newReport.id });
 	});
 };
 
