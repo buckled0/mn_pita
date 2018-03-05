@@ -20,7 +20,7 @@ describe('Reports', () => {
 	describe('/Get report', () => {
 		it('it should GET all reports', (done) => {
 			chai.request(server)
-				.get('/pita')
+				.get('/')
 				.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.a('array');
@@ -38,12 +38,12 @@ describe('Reports', () => {
 				version: '12',
 				os: 'High Sierra',
 				platform: 'Mac',
-				report: 'Test',
+				reportText: 'Test',
 				userId: 111111,
 				userEmail: 'test@test.com'
 			}
 			chai.request(server)
-				.post('/pita')
+				.post('/')
 				.send(report)
 				.end((err, res) => {
 						res.should.have.status(200);
@@ -63,13 +63,13 @@ describe('Reports', () => {
 				version: '12',
 				os: 'High Sierra',
 				platform: 'Mac',
-				report: 'Test',
+				reportText: 'Test',
 				userId: 111111,
 				userEmail: 'test@test.com',
 				username: 'TestUser'
 			}
 			chai.request(server)
-				.post('/pita')
+				.post('/')
 				.send(report)
 				.end((err, res) => {	
 						res.should.have.status(200);
@@ -95,14 +95,14 @@ describe('Reports', () => {
 				version: '12',
 				os: 'High Sierra',
 				platform: 'Mac',
-				report: 'Test',
+				reportText: 'Test',
 				userId: 111111,
 				userEmail: 'test@test.com',
 				username: 'TestUser'
 			});
       report.save((err, report) => {
       	chai.request(server)
-      	.get('/pita/' + report.id)
+      	.get('/' + report.id)
       	.send(report)
       	.end((err, res) => {
       	    res.should.have.status(200);
