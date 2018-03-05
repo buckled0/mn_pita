@@ -2,8 +2,7 @@ let mongoose = require('mongoose');
 let Report = require('../models/report.js');
 
 function listReports(req, res) {
-	let query = Report.find({});
-	query.exec((err, report) => {
+	Report.find(function(err, report) {
 		if (err) {
 			res.send(err);
 		}

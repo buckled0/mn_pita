@@ -18,6 +18,7 @@ ReportSchema.pre('save', next => {
 	if(!this.createdAt) {
 		this.createdAt = now;
 	}
+	next();
 });
 
 module.exports = mongoose.model('report', ReportSchema);
