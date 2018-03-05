@@ -90,7 +90,7 @@ describe('Reports', () => {
 
 	describe('/GET/:id report', () => {
 		it('it should GET a report by the given id', (done) => {
-			let newReport = new Report({
+      let report = new Report({
 				browser: 'Chrome',
 				version: '12',
 				os: 'High Sierra',
@@ -100,26 +100,21 @@ describe('Reports', () => {
 				userEmail: 'test@test.com',
 				username: 'TestUser'
 			});
-
-			newReport.save((err, report) => {
-				chai.request(server)
-					.get('/pita/' + report.id)
-					.send(newReport)
-					.end((err, res) => {
-							res.should.have.status(200);
-							res.body.should.be.a('object');
-							res.body.should.have.property('browser');
-							res.body.should.have.property('version');
-							res.body.should.have.property('os');
-							res.body.should.have.property('platform');
-							res.body.should.have.property('reportText');
-							res.body.should.have.property('userId');
-							res.body.should.have.property('userEmail');
-							res.body.should.have.property('username');
-							res.body.should.have.property('_id').eql(report.id);
-						done();
-					});
-			});
-		});
+      report.save((err, report) => {
+      	chai.request(server)
+      	.get('/pita/' + report.id)
+      	.send(report)
+      	.end((err, res) => {
+      	    res.should.have.status(200);
+      	    res.body.should.be.a('object');
+      	    res.body.should.have.property('browser');
+      	    res.body.should.have.property('version');
+      	    res.body.should.have.property('platform');
+      	    res.body.should.have.property('reportText');
+      	    res.body.should.have.property('_id').eql(report.id);
+      	  done();
+      	});
+      });
+    });  
 	});
 });
