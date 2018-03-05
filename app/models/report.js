@@ -10,7 +10,7 @@ var ReportSchema = new Schema ({
 	userId: { type: Number, required: true },
 	username: { type: String, required: true },
 	userEmail: { type: String, required: true },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
 },{ version: false });
 
 ReportSchema.pre('save', next => {
