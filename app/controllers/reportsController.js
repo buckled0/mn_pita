@@ -1,7 +1,9 @@
-var Report = require('../models/report.js');
+let mongoose = require('mongoose');
+let Report = require('../models/report.js');
 
-exports.list_reports = function(req, res) {
-	Report.find(function(err, report) {
+function listReports(req, res) {
+	let query = Report.find({});
+	query.exec((err, report) => {
 		if (err) {
 			res.send(err);
 		}
@@ -9,7 +11,7 @@ exports.list_reports = function(req, res) {
 	});
 };
 
-exports.report_create_post = function(req, res) {
+function createReport(req, res) {
 	var newReport = new Report({
 		browser: req.useragent.browser,
 		version: req.useragent.version,
@@ -18,28 +20,29 @@ exports.report_create_post = function(req, res) {
 		reportText: req.body.report,
 		userId: req.body.userId,
 		username: req.body.username,
-		userEmail: req.body.email
+		userEmail: req.body.userEmail
 	});
-
-	newReport.save(function(err){
+	newReport.save((err, report) => {
 		if (err) {
 			res.send(err);
+		} else {
+			res.json({ message: 'Report created', report });
 		}
-		res.json({ message: 'Report created, id:' + newReport.id });
 	});
 };
 
-exports.report_details = function(req, res) {
+function reportDetails(req, res) {
 	const id = req.params.id;
 	Report.findById(id, function(err, report) {
 		if (err) {
 			res.send(err);
+		} else {
+			res.json(report);
 		}
-		res.json(report);
 	});
 };
 
-exports.delete_report = function(req, res) {
+function deleteReport(req, res) {
 	const id = req.params.id;
 	Report.findByIdAndRemove(id, function(err, item) {
 		if (err) {
@@ -50,7 +53,7 @@ exports.delete_report = function(req, res) {
 	});
 };
 
-exports.update_report = function(req, res) {
+function updateReport(req, res) {
 	const id = req.params.id;
 	var newReport = new Report({
 		browser: req.useragent.browser,
@@ -70,3 +73,5 @@ exports.update_report = function(req, res) {
 		}
 	});
 };
+
+module.exports = { listReports, createReport, reportDetails, deleteReport, updateReport };
