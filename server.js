@@ -1,45 +1,10 @@
-let express 			= require('express');
-let bodyParser		= require('body-parser');
-let app 					= express();
-let mongoose			= require('mongoose');
-let morgan				= require('morgan');
-let config 				= require('config');
-let report 				= require('./app/controllers/reportsController.js');
-let port 					= 8000;
+const mongoose          = require('mongoose');
 
-let options = {
-	keepAlive: 1, connectTimeoutMS: 30000
-};
+const { port, dbUrl }   = require('./config/config');
+const app               = require('./app');
 
-mongoose.connect(config.DBHost, options);
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connect(dbUrl());
 
-if(config.util.getEnv('NODE_ENV') !== 'test') {
-	app.use(morgan('combined'));
-}
-
-var index					= require('./app/routes/index.js');
-var pita					= require('./app/routes/pitaRoutes.js');
-var useragent 		= require('express-useragent');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: 'application/json'}));  
-app.use(useragent.express());
-
-app.route('/pita')
-	.get(report.listReports)
-	.post(report.createReport);
-
-app.route('/pita/:id')
-	.get(report.reportDetails)
-	.delete(report.deleteReport)
-	.put(report.updateReport);
-
-app.listen(port);
-
-console.log("Listening on port " + port);
-
-module.exports = app;
+app.listen(port(), () => {
+    console.log(`We're live on port ${port()}`);    
+});

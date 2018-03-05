@@ -1,38 +1,7 @@
-let mongoose = require('mongoose');
-let Report = require('../models/report.js');
+var Report = require('../models/report.js');
 
-function listReports(req, res) {
+exports.list_reports = function(req, res) {
 	Report.find(function(err, report) {
-		if (err) {
-			res.send(err);
-		}
-		res.json(report);
-	});
-};
-
-function createReport(req, res) {
-	var newReport = new Report({
-		browser: req.useragent.browser,
-		version: req.useragent.version,
-		os: req.useragent.os,
-		platform: req.useragent.platform,
-		reportText: req.body.report,
-		userId: req.body.userId,
-		username: req.body.username,
-		userEmail: req.body.userEmail
-	});
-	newReport.save((err, report) => {
-		if (err) {
-			res.send(err);
-		} else {
-			res.json({ message: 'Report created', report });
-		}
-	});
-};
-
-function reportDetails(req, res) {
-	const id = req.params.id;
-	Report.findById(id, function(err, report) {
 		if (err) {
 			res.send(err);
 		} else {
@@ -41,7 +10,30 @@ function reportDetails(req, res) {
 	});
 };
 
-function deleteReport(req, res) {
+exports.report_create_post = function(req, res) {
+	var newReport = new Report(Object.assign({}, req.useragent, req.body));
+
+	newReport.save(function(err){
+		if (err) {
+			res.send(err);
+		} else {
+			res.json({ message: 'Report created, id:' + newReport.id });
+		}
+	});
+};
+
+exports.report_details = function(req, res) {
+	const id = req.params.id;
+	Report.findById(id, function(err, report){
+		if (err) {
+			res.send(err);
+		} else {
+			res.json(report);
+		}
+	});
+};
+
+exports.delete_report = function(req, res) {
 	const id = req.params.id;
 	Report.findByIdAndRemove(id, function(err, item) {
 		if (err) {
@@ -52,25 +44,15 @@ function deleteReport(req, res) {
 	});
 };
 
-function updateReport(req, res) {
+exports.update_report = function(req, res) {
 	const id = req.params.id;
-	var newReport = new Report({
-		browser: req.useragent.browser,
-		version: req.useragent.version,
-		os: req.useragent.os,
-		platform: req.useragent.platform,
-		reportText: req.body.report,
-		userId: req.body.userId,
-		username: req.body.username,
-		userEmail: req.body.email
-	});
+	var newReport = new Report(Object.assign({}, req.useragent, req.body));	
+	
 	Report.findByIdAndUpdate(id, newReport, function(err, result) {
 		if (err) {
 			res.send({'error': 'An error has occured'});
 		} else {
 			res.send(pita);
 		}
-	});
+	});	
 };
-
-module.exports = { listReports, createReport, reportDetails, deleteReport, updateReport };
