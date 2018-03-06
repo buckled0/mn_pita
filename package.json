@@ -4,10 +4,12 @@
   "description": "MN bug reporting api",
   "main": "server.js",
   "scripts": {
-    "dev": "NODE_ENV=dev nodemon server.js",
-    "test": "mocha --timeout 10000",
-    "start": "NODE_ENV=dev && node server.js",
-    "deps": "docker-compose up -d"
+    "dev": "nodemon server.js",
+    "test": "PORT=8080 DB_URL=mongodb://mnhq:mnhq1234@ds247058.mlab.com:47058/test_reports mocha --timeout 10000",
+    "start": "node server.js",
+    "deps": "docker-compose up",
+    "deps-build": "docker build .",
+    "deps-test": "docker build -t mn_pita_test -f Dockerfile.test . && docker run --rm mn_pita_test"
   },
   "repository": {
     "type": "git",
@@ -26,12 +28,12 @@
     "express-useragent": "^1.0.12",
     "mongoose": "^5.0.7",
     "morgan": "^1.9.0",
+    "nodemon": "^1.17.1",
     "npm": "^5.7.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^5.0.1",
     "chai-http": "^3.0.0",
-    "nodemon": "^1.17.1"
+    "mocha": "^5.0.1"
   }
 }

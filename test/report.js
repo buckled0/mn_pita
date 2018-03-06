@@ -117,4 +117,69 @@ describe('Reports', () => {
       });
     });  
 	});
+
+	describe('/PUT/:id report', () => {
+		it('it should UPDATE a report given the id', (done) => {
+			let report = new Report({
+				browser: 'Chrome',
+				version: '12',
+				os: 'High Sierra',
+				platform: 'Mac',
+				reportText: 'Test',
+				userId: 111111,
+				userEmail: 'test@test.com',
+				username: 'TestUser'
+			});
+			let newReport = new Report({
+				browser: 'Safari',
+				version: '12',
+				os: 'High Sierra',
+				platform: 'Mac',
+				reportText: 'New Test',
+				userId: 111111,
+				userEmail: 'test@test.com',
+				username: 'TestUser'
+			});
+			report.save((err, report) => {
+				chai.request(server)
+					.put('/' + report.id)
+					.send(newReport)
+					.end((err, res) => {
+							res.should.have.status(200);
+							res.body.should.be.a('object');
+							res.body.should.have.property('message').eql('Report updated!');
+							res.body.report.should.have.property('browser').eql('Safari');
+							res.body.report.should.have.property('reportText').eql('New Test');
+						done();
+					});
+			}) 
+		});
+	});
+
+	describe('/DELETE/:id report', () => {
+		it('it should DELETE a book given the id', (done) => {
+			let report = new Report({
+				browser: 'Chrome',
+				version: '12',
+				os: 'High Sierra',
+				platform: 'Mac',
+				reportText: 'Test',
+				userId: 111111,
+				userEmail: 'test@test.com',
+				username: 'TestUser'
+			});
+			report.save((err, report) => {
+				chai.request(server)
+					.delete('/' + report.id)
+					.end((err, res) => {
+							res.should.have.status(200);
+							res.body.should.have.property('message').eql('Report deleted!');
+							res.body.result.should.have.property('ok').eql(1);
+							res.body.result.should.have.property('n').eql(1);
+						done();
+					});
+			});
+		});
+	});
+
 });

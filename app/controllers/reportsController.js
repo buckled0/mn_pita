@@ -12,12 +12,11 @@ exports.list_reports = function(req, res) {
 
 exports.report_create_post = function(req, res) {
 	var newReport = new Report(Object.assign({}, req.useragent, req.body));
-
-	newReport.save(function(err){
+	newReport.save(function(err, report){
 		if (err) {
 			res.send(err);
 		} else {
-			res.json({ message: 'Report created' });
+			res.json({ message: 'Report created', report });
 		}
 	});
 };
@@ -35,24 +34,20 @@ exports.report_details = function(req, res) {
 
 exports.delete_report = function(req, res) {
 	const id = req.params.id;
-	Report.findByIdAndRemove(id, function(err, item) {
-		if (err) {
-			res.send({'error': 'An error has occured'});
-		} else {
-			res.send('Pita ' + id + ' deleted!');
-		}
-	});
+	Report.remove({ _id: id }, (err, result) => {
+		res.json({ message: 'Report deleted!', result })
+	});	
 };
 
 exports.update_report = function(req, res) {
 	const id = req.params.id;
 	var newReport = new Report(Object.assign({}, req.useragent, req.body));	
 	
-	Report.findByIdAndUpdate(id, newReport, function(err, result) {
-		if (err) {
-			res.send({'error': 'An error has occured'});
-		} else {
-			res.send(pita);
-		}
+	Report.findById({ _id: id }, (err, report) => {
+		if (err) { res.send(err); } 
+		Object.assign(report, newReport).save((err, book) => {
+			if(err) res.send(err);
+			res.json({ message: 'Report updated!', report });
+		});
 	});	
 };
