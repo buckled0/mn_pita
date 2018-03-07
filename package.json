@@ -5,8 +5,11 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "mocha",
-    "start": "node server.js"
+    "test": "PORT=8080 DB_URL=mongodb://mnhq:mnhq1234@ds247058.mlab.com:47058/test_reports mocha --timeout 10000",
+    "start": "node server.js",
+    "deps": "docker-compose up",
+    "deps-build": "docker build .",
+    "deps-test": "docker build -t mn_pita_test -f Dockerfile.test . && docker run --rm mn_pita_test"
   },
   "repository": {
     "type": "git",
@@ -20,15 +23,17 @@
   "homepage": "https://github.com/buckled0/mn_pita#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "config": "^1.30.0",
     "express": "^4.16.2",
     "express-useragent": "^1.0.12",
-    "mongodb": "^2.2.19",
     "mongoose": "^5.0.7",
-    "nodeunit": "^0.11.2"
+    "morgan": "^1.9.0",
+    "npm": "^5.7.1"
   },
   "devDependencies": {
+    "nodemon": "^1.17.1",
     "chai": "^4.1.2",
-    "mocha": "^5.0.1",
-    "nodemon": "^1.17.1"
+    "chai-http": "^3.0.0",
+    "mocha": "^5.0.1"
   }
 }

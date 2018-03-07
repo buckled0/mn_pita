@@ -4,69 +4,50 @@ exports.list_reports = function(req, res) {
 	Report.find(function(err, report) {
 		if (err) {
 			res.send(err);
+		} else {
+			res.json(report);
 		}
-		res.json(report);
 	});
 };
 
 exports.report_create_post = function(req, res) {
-	var newReport = new Report({
-		browser: req.useragent.browser,
-		version: req.useragent.version,
-		os: req.useragent.os,
-		platform: req.useragent.platform,
-		reportText: req.body.report,
-		userId: req.body.userId,
-		username: req.body.username,
-		userEmail: req.body.email
-	});
-
-	newReport.save(function(err){
+	var newReport = new Report(Object.assign({}, req.useragent, req.body));
+	newReport.save(function(err, report){
 		if (err) {
 			res.send(err);
+		} else {
+			res.json({ message: 'Report created', report });
 		}
-		res.json({ message: 'Report created, id:' + newReport.id });
 	});
 };
 
 exports.report_details = function(req, res) {
 	const id = req.params.id;
-	Report.findById(id, function(err, report) {
+	Report.findById(id, function(err, report){
 		if (err) {
 			res.send(err);
+		} else {
+			res.json(report);
 		}
-		res.json(report);
 	});
 };
 
 exports.delete_report = function(req, res) {
 	const id = req.params.id;
-	Report.findByIdAndRemove(id, function(err, item) {
-		if (err) {
-			res.send({'error': 'An error has occured'});
-		} else {
-			res.send('Pita ' + id + ' deleted!');
-		}
-	});
+	Report.remove({ _id: id }, (err, result) => {
+		res.json({ message: 'Report deleted!', result })
+	});	
 };
 
 exports.update_report = function(req, res) {
 	const id = req.params.id;
-	var newReport = new Report({
-		browser: req.useragent.browser,
-		version: req.useragent.version,
-		os: req.useragent.os,
-		platform: req.useragent.platform,
-		reportText: req.body.report,
-		userId: req.body.userId,
-		username: req.body.username,
-		userEmail: req.body.email
-	});
-	Report.findByIdAndUpdate(id, newReport, function(err, result) {
-		if (err) {
-			res.send({'error': 'An error has occured'});
-		} else {
-			res.send(pita);
-		}
-	});
+	var newReport = new Report(Object.assign({}, req.useragent, req.body));	
+	
+	Report.findById({ _id: id }, (err, report) => {
+		if (err) { res.send(err); } 
+		Object.assign(report, newReport).save((err, book) => {
+			if(err) res.send(err);
+			res.json({ message: 'Report updated!', report });
+		});
+	});	
 };

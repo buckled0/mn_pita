@@ -1,22 +1,12 @@
-const express 			= require('express');
-const bodyParser		= require('body-parser');
-const db						= require('./config/db');
-const app 					= express();
+const mongoose          = require('mongoose');
 
-const port 					= process.env.PORT || 8000;
+const { port, dbUrl }   = require('./config/config');
+const app               = require('./app');
 
-var index						= require('./app/routes/index.js');
-var pita						= require('./app/routes/pitaRoutes.js');
-var useragent 	= require('express-useragent');
+mongoose.connect(dbUrl());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(useragent.express());
+app.listen(port(), () => {
+    console.log(`We're live on port ${port()}`);
+});
 
-app.use('/', index);
-app.use('/pita', pita);
-
-app.listen(port);
-
-console.log('Magic happens on port ' + port);
-
+module.exports = app

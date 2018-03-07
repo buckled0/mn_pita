@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    command: npm start
+    volumes:
+      - .:/mn_pita/
+      - /mn_pita/node_modules
+    ports:
+      - "8000:8000"
