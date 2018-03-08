@@ -35,7 +35,7 @@ exports.report_details = function(req, res) {
 exports.delete_report = function(req, res) {
 	const id = req.params.id;
 	Report.remove({ _id: id }, (err, result) => {
-		res.json({ message: 'Report deleted!', result })
+		res.json({ message: 'Report deleted', result })
 	});	
 };
 
