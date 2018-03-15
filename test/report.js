@@ -9,15 +9,28 @@ let chaiHttp = require('chai-http');
 let server = require('../server');
 let should = chai.should();
 
+let Cleaner = require('database-cleaner');
+let dbCleaner = new Cleaner('mongodb');
+
 chai.use(chaiHttp);
 
 describe('Reports', () => {
 	var report;
 	var reportPromise = Factory.attrs('Report').then(reportPromise => { report = reportPromise; });
+
+	var reports;
+	var reportsArray = Factory.attrsMany('Report', 5).then(reportsArray => { reports = reportsArray; });
+
 	beforeEach((done) => {
 		Report.remove({}, (err) => {
 			done();
 		});
+	});
+
+	afterEach((done) => {
+  	dbCleaner.clean(mongoose.connection.db, () => {
+    	done();
+  	});
 	});
 
 	describe('/Get report', () => {
@@ -145,6 +158,23 @@ describe('Reports', () => {
 					});
 				Factory.cleanUp;	
 			});
+		});
+	});
+
+	describe('/GET/:id user', () => {
+		it('it should load all issues by a single user id', (done) => {
+			var userId = 111111;
+			Report.collection.insert(reports);
+			chai.request(server)
+				.get('/user/' + userId)
+				.send(reports)
+				.end((err, res) => {
+						res.should.have.status(200);
+						res.body.should.be.a('array');
+						res.body.length.should.be.eql(5);
+					done();
+				});
+			Factory.cleanUp;	
 		});
 	});
 });
