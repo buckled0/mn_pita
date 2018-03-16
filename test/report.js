@@ -79,7 +79,7 @@ describe('Reports', () => {
 				.end((err, res) => {	
 						res.should.have.status(200);
 						res.body.should.be.a('object');
-						res.body.should.have.property('message').eql('Report created');
+						res.body.should.have.property('message').eql('Report created!!!');
 						res.body.report.should.have.property('browser');
 						res.body.report.should.have.property('version');
 						res.body.report.should.have.property('os');
