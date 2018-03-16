@@ -5,9 +5,6 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run:
-        name: Show current branch
-        command: echo ${CIRCLE_BRANCH}
       - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "package.json" }}  
