@@ -42,12 +42,22 @@ exports.delete_report = function(req, res) {
 exports.update_report = function(req, res) {
 	const id = req.params.id;
 	var newReport = new Report(Object.assign({}, req.useragent, req.body));	
-	
-	Report.findById({ _id: id }, (err, report) => {
+	Report.findById(id, (err, report) => {
 		if (err) { res.send(err); } 
 		Object.assign(report, newReport).save((err, book) => {
 			if(err) res.send(err);
 			res.json({ message: 'Report updated!', report });
 		});
 	});	
+};
+
+exports.load_user_reports = function(req, res) {
+	const id = req.params.id;
+	Report.find({ 'userId' : id }, (err, reports) => {
+		if (err) {
+			res.send(err);
+		} else {
+			res.json(reports);
+		}
+	});
 };
