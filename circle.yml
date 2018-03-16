@@ -1,3 +1,6 @@
 machine:
   node:
-    version: 8.9.4
+    version: latest    
+checkout:
+  post:
+    - git pull origin staging
