@@ -1,11 +1,11 @@
 version: 2
-machine:
-  node:
-    version: latest    
-checkout:
-  post:
-    - git pull origin staging
 jobs:
+  machine:
+    node:
+      version: latest    
+  checkout:
+    post:
+      - git pull origin staging
   build:
     working_directory: ~/mn_pita
     docker:
