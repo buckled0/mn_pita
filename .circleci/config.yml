@@ -1,12 +1,12 @@
 version: 2
 jobs:
-  machine:
-    node:
-      version: latest    
-  checkout:
-    post:
-      - git pull origin staging
   build:
+    machine:
+      node:
+        version: latest    
+    checkout:
+      post:
+        - git pull origin staging
     working_directory: ~/mn_pita
     docker:
       - image: circleci/node:latest
