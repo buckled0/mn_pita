@@ -5,20 +5,8 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "package.json" }}
-        - v1-dependencies-
-      - run: 
-        name: Run the build
-        command: npm run deps-build
-      - save_cache:
-        key: v1-dependencies-{{ checksum "package.json" }}
-        paths:
-          - node_modules
-      - run: 
-        name: Testing
-        command: npm run deps-test    
+      - run: npm run deps-build
+      - run: npm run deps-test    
 workflows:
   version: 2
   build:
