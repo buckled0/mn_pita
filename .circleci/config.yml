@@ -1,17 +1,13 @@
 version: 2
-machine:
-  node:
-    version: latest    
-checkout:
-  post:
-    - git pull origin staging
 jobs:
-  build:
+  build:  
     working_directory: ~/mn_pita
     docker:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run: git fetch origin staging
+      - run: git rebase staging
       - run:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
