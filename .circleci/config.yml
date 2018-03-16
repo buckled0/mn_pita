@@ -6,6 +6,7 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run: git fetch origin staging
       - run: git rebase staging
       - run:
           name: Update npm
