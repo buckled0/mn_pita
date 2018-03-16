@@ -3,7 +3,7 @@ jobs:
   build_and_test:
     working_directory: ~/mn_pita
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:9.8.0
     steps:
       - checkout
       - run:
