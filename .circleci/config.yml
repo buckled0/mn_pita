@@ -7,9 +7,11 @@ jobs:
       - checkout
       - restore_cache:
         keys:
-        - v1-dependencies-{{ checksum "package.json" }}  
-        - v1-dependencies- 
-      - run: npm run deps-build
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+      - run: 
+        name: Run the build
+        command: npm run deps-build
       - save_cache:
         key: v1-dependencies-{{ checksum "package.json" }}
         paths:
