@@ -10,9 +10,9 @@ jobs:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: 
-              - dependency-cache-{{ checksum "package.json" }}
-              - dependency-cache-
+          keys:
+            - dependency-cache-{{ checksum "package.json" }}
+            - dependency-cache-
       - run:
           name: Install npm wee
           command: npm install
