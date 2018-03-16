@@ -8,8 +8,9 @@ jobs:
         name: Show current branch
         command: echo ${CIRCLE_BRANCH}
       - restore_cache:
-        - v1-dependencies-{{ checksum "package.json" }}  
-        - v1-dependencies- 
+        - keys:
+          - v1-dependencies-{{ checksum "package.json" }}  
+          - v1-dependencies- 
       - run: npm run deps-build
       - save_cache:
         key: v1-dependencies-{{ checksum "package.json" }}
