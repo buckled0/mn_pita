@@ -5,8 +5,8 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run: npm run deps-build
-      - run: npm run deps-test    
+      - run: npm install
+      - run: npm test    
 workflows:
   version: 2
   build:
