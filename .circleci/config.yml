@@ -68,7 +68,7 @@ workflows:
     jobs:
       - build
   build_for_master:
-    job:
+    jobs:
       - deploy_to_master:
         filters:
             branches:
