@@ -4,12 +4,9 @@
   "description": "MN bug reporting api",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "docker-compose up -d && nodemon server.js",
     "test": "PORT=8080 DB_URL=mongodb://mnhq:mnhq1234@ds247058.mlab.com:47058/test_reports mocha --exit --timeout 10000",
-    "start": "node server.js",
-    "deps": "docker-compose up",
-    "deps-build": "docker-compose build --pull",
-    "deps-test": "docker-compose -f docker-compose.test.yml run --rm sut"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +25,9 @@
     "express-useragent": "^1.0.12",
     "faker": "^4.1.0",
     "mongoose": "^5.0.7",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "npm": "^5.7.1",
+    "pug": "^2.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",

@@ -5,7 +5,14 @@ exports.list_reports = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(report);
+			console.log(req.is('*/*'));
+			if (req.is('application/json')) {
+				res.json(report);
+			} else {
+				res.render('pita', {
+					result: report
+				});
+			}
 		}
 	});
 };

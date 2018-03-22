@@ -1,0 +1,13 @@
+- var reports = result
+
+html
+	body
+		div#title
+			h1 Hello! 
+			h3 Welcome to Mumsnet PITA, what seems to be the issue?
+		form(method='POST' action='/')
+			div.form-group
+				label(form='reportText') Can you describe the issue:
+				input#reportText.formControl(type='textarea', name='reportText')
+			button.btn.btn-primary(type='submit') Report Issue
+
