@@ -1,6 +1,0 @@
-machine:
-  node:
-    version: latest    
-checkout:
-  post:
-    - git pull origin staging
