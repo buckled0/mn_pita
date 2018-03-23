@@ -1,8 +1,0 @@
-FROM mn_pita
-
-COPY test test
-ENV NODE_ENV test
-
-RUN npm install -g mocha
-
-CMD ["npm", "test"]

@@ -1,11 +1,21 @@
 var Report = require('../models/report.js');
 
+exports.new_report = function(req, res) {
+	res.render('pita');
+}
+
 exports.list_reports = function(req, res) {
 	Report.find(function(err, report) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(report);
+			if (isJsonRequest(req)) {
+				res.json(report);
+			} else {
+				res.render('pitaReports', {
+					result: report
+				});
+			}
 		}
 	});
 };
@@ -16,7 +26,14 @@ exports.report_create_post = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json({ message: 'Report created', report });
+			if (isJsonRequest(req)) {
+				res.json({ message: 'Report created', report });
+			}
+			else {
+				res.render('pitaSuccess', {
+					result: report
+				});
+			}
 		}
 	});
 };
@@ -27,7 +44,9 @@ exports.report_details = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(report);
+			if (isJsonRequest(req)) {
+				res.json(report);
+			}
 		}
 	});
 };
@@ -35,7 +54,9 @@ exports.report_details = function(req, res) {
 exports.delete_report = function(req, res) {
 	const id = req.params.id;
 	Report.remove({ _id: id }, (err, result) => {
-		res.json({ message: 'Report deleted!', result })
+		if (isJsonRequest(req)) {
+			res.json({ message: 'Report deleted!', result })
+		}
 	});	
 };
 
@@ -46,7 +67,9 @@ exports.update_report = function(req, res) {
 		if (err) { res.send(err); } 
 		Object.assign(report, newReport).save((err, book) => {
 			if(err) res.send(err);
-			res.json({ message: 'Report updated!', report });
+			if (isJsonRequest(req)) {
+				res.json({ message: 'Report updated!', report });
+			}
 		});
 	});	
 };
@@ -57,7 +80,13 @@ exports.load_user_reports = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json(reports);
+			if (isJsonRequest(req)) {
+				res.json(reports);
+			}
 		}
 	});
 };
+
+function isJsonRequest(req) {
+	return req.get('content-type') === 'application/json';
+}

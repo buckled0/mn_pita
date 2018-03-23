@@ -36,7 +36,8 @@ describe('Reports', () => {
 	describe('/Get report', () => {
 		it('it should GET all reports', (done) => {
 			chai.request(server)
-				.get('/')
+				.get('/list')
+				.set('Content-Type', 'application/json')
 				.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.a('array');
@@ -58,7 +59,8 @@ describe('Reports', () => {
 				userEmail: 'test@test.com'
 			}
 			chai.request(server)
-				.post('/')
+				.post('/create')
+				.set('Content-Type', 'application/json')
 				.send(reportMissingUsername)
 				.end((err, res) => {
 						res.should.have.status(200);
@@ -74,7 +76,8 @@ describe('Reports', () => {
 	describe('/Post report', () => {
 		it('it should POST a report', (done) => {	
 			chai.request(server)
-				.post('/')
+				.post('/create')
+				.set('Content-Type', 'application/json')
 				.send(report)
 				.end((err, res) => {	
 						res.should.have.status(200);
@@ -98,7 +101,8 @@ describe('Reports', () => {
 		it('it should GET a report by the given id', (done) => {
 			new Report(report).save((err, report) => {
       	chai.request(server)
-      		.get('/' + report.id)
+      		.get('/report/' + report.id)
+      		.set('Content-Type', 'application/json')
       		.send(report)
       		.end((err, res) => {
       		    res.should.have.status(200);
@@ -129,7 +133,8 @@ describe('Reports', () => {
 			});
 			new Report(report).save((err, report) => {
 				chai.request(server)
-					.put('/' + report.id)
+					.put('/report/' + report.id)
+					.set('Content-Type', 'application/json')
 					.send(newReport)
 					.end((err, res) => {
 							res.should.have.status(200);
@@ -148,7 +153,8 @@ describe('Reports', () => {
 		it('it should DELETE a book given the id', (done) => {
 			new Report(report).save((err, report) => {
 				chai.request(server)
-					.delete('/' + report.id)
+					.delete('/report/delete/' + report.id)
+					.set('Content-Type', 'application/json')
 					.end((err, res) => {
 							res.should.have.status(200);
 							res.body.should.have.property('message').eql('Report deleted!');
@@ -167,6 +173,7 @@ describe('Reports', () => {
 			Report.collection.insert(reports);
 			chai.request(server)
 				.get('/user/' + userId)
+				.set('Content-Type', 'application/json')
 				.send(reports)
 				.end((err, res) => {
 						res.should.have.status(200);

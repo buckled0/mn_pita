@@ -1,0 +1,22 @@
+- var reports = result
+
+html
+	body
+		div#title
+			h1 Hello! 
+			h3 Welcome to Mumsnet PITA, what seems to be the issue?
+		form(method='POST' action='/create')
+			div.form-group
+				label(form='username') Username:
+				input#username.formControl(type='textarea', name='username')
+
+				label(form='userEmail') User Email:
+				input#userEmail.formControl(type='textarea', name='userEmail')
+				
+				label(form='userId') User ID:
+				input#userId.formControl(type='textarea', name='userId')
+
+				label(form='reportText') Can you describe the issue:
+				input#reportText.formControl(type='textarea', name='reportText')
+			button.btn.btn-primary(type='submit') Report Issue
+
