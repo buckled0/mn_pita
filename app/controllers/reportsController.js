@@ -1,5 +1,9 @@
 var Report = require('../models/report.js');
 
+exports.new_report = function(req, res) {
+	res.render('pita');
+}
+
 exports.list_reports = function(req, res) {
 	Report.find(function(err, report) {
 		if (err) {
