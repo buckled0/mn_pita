@@ -12,7 +12,7 @@ exports.list_reports = function(req, res) {
 			if (isJsonRequest(req)) {
 				res.json(report);
 			} else {
-				res.render('pita', {
+				res.render('pitaReports', {
 					result: report
 				});
 			}
@@ -26,7 +26,14 @@ exports.report_create_post = function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json({ message: 'Report created', report });
+			if (isJsonRequest(req)) {
+				res.json({ message: 'Report created', report });
+			}
+			else {
+				res.render('pitaSuccess', {
+					result: report
+				});
+			}
 		}
 	});
 };
