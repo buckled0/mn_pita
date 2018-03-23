@@ -4,9 +4,11 @@
   "description": "MN bug reporting api",
   "main": "server.js",
   "scripts": {
-    "dev": "docker-compose up -d && nodemon server.js",
+    "dev": "nodemon server.js",
     "test": "PORT=8080 DB_URL=mongodb://mnhq:mnhq1234@ds247058.mlab.com:47058/test_reports mocha --exit --timeout 10000",
-    "start": "node server.js"
+    "start": "node server.js",
+    "deps": "docker-compose up -d",
+    "deps-stop": "docker-compose down"
   },
   "repository": {
     "type": "git",

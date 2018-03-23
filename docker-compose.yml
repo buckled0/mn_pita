@@ -1,5 +1,13 @@
 version: '2'
-services:    
+services:
+  web:
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/mn_pita/
+      - /mn_pita/node_modules
+    ports:
+      - "8000:8000"  
   database:
     image: mongo:latest
     container_name: mongodb
