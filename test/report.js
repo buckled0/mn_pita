@@ -37,6 +37,7 @@ describe('Reports', () => {
 		it('it should GET all reports', (done) => {
 			chai.request(server)
 				.get('/')
+				.set('Content-Type', 'application/json')
 				.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.a('array');
@@ -59,6 +60,7 @@ describe('Reports', () => {
 			}
 			chai.request(server)
 				.post('/')
+				.set('Content-Type', 'application/json')
 				.send(reportMissingUsername)
 				.end((err, res) => {
 						res.should.have.status(200);
@@ -75,6 +77,7 @@ describe('Reports', () => {
 		it('it should POST a report', (done) => {	
 			chai.request(server)
 				.post('/')
+				.set('Content-Type', 'application/json')
 				.send(report)
 				.end((err, res) => {	
 						res.should.have.status(200);
@@ -99,6 +102,7 @@ describe('Reports', () => {
 			new Report(report).save((err, report) => {
       	chai.request(server)
       		.get('/' + report.id)
+      		.set('Content-Type', 'application/json')
       		.send(report)
       		.end((err, res) => {
       		    res.should.have.status(200);
@@ -130,6 +134,7 @@ describe('Reports', () => {
 			new Report(report).save((err, report) => {
 				chai.request(server)
 					.put('/' + report.id)
+					.set('Content-Type', 'application/json')
 					.send(newReport)
 					.end((err, res) => {
 							res.should.have.status(200);
@@ -149,6 +154,7 @@ describe('Reports', () => {
 			new Report(report).save((err, report) => {
 				chai.request(server)
 					.delete('/' + report.id)
+					.set('Content-Type', 'application/json')
 					.end((err, res) => {
 							res.should.have.status(200);
 							res.body.should.have.property('message').eql('Report deleted!');
@@ -167,6 +173,7 @@ describe('Reports', () => {
 			Report.collection.insert(reports);
 			chai.request(server)
 				.get('/user/' + userId)
+				.set('Content-Type', 'application/json')
 				.send(reports)
 				.end((err, res) => {
 						res.should.have.status(200);

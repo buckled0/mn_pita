@@ -10,7 +10,6 @@ const {
     load_user_reports } = require('../controllers/reportsController.js');
 
 router.get('/', list_reports);
-router.post('/', list_reports);
 router.post('/', report_create_post);
 router.get('/:id', report_details);
 router.delete('/:id', delete_report);
