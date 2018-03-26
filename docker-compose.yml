@@ -7,7 +7,9 @@ services:
       - .:/mn_pita/
       - /mn_pita/node_modules
     ports:
-      - "8000:8000"  
+      - "8000:8000"
+    links:
+      - database  
   database:
     image: mongo:latest
     container_name: mongodb
