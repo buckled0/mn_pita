@@ -21,7 +21,7 @@ jobs:
             - dependency-cache-{{ checksum "package.json" }}
             - dependency-cache-
       - run: |
-          docker run --name mongodb mongod --smallfiles     
+          docker run -d --name mongodb
       - run:
           name: Install npm
           command: npm install
