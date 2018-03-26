@@ -5,6 +5,8 @@ jobs:
     docker:
       - image: circleci/node:latest
       - image: circleci/mongo:latest
+    environment:
+      - MONGO_URL: "mongodb://localhost:27017"
     steps:
       - checkout
       - run: git fetch origin staging
@@ -18,7 +20,7 @@ jobs:
             - dependency-cache-
       - run:
           name: Start Mongo docker image
-          command: 'docker run --name mongodb mongod --smallfiles'      
+          command: 'docker run --name mongod --smallfiles'      
       - run:
           name: Install npm
           command: npm install
