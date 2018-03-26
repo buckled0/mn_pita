@@ -11,6 +11,8 @@ jobs:
       - checkout
       - run: git fetch origin staging
       - run: git rebase staging
+      - setup_remote_docker:
+          version: 17.05.0-ce
       - run:
           name: Update npm
           command: 'sudo npm install -g npm@latest'
@@ -18,9 +20,8 @@ jobs:
           keys:
             - dependency-cache-{{ checksum "package.json" }}
             - dependency-cache-
-      - run:
-          name: Start Mongo docker image
-          command: 'docker run --name mongodb mongod --smallfiles'      
+      - run: |
+          docker run --name mongodb mongod --smallfiles     
       - run:
           name: Install npm
           command: npm install
