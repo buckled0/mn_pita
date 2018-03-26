@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/mn_pita
     docker:
       - image: circleci/node:latest
-      - image: circleci/mongo:latest
+      - image: circleci/mongo:3.7.3
     environment:
       - MONGO_URL: "mongodb://localhost:27017"
     steps:
