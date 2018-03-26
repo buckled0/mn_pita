@@ -166,7 +166,7 @@ describe('Reports', () => {
 			});
 		});
 	});
-
+/*
 	describe('/GET/:id user', () => {
 		it('it should load all issues by a single user id', (done) => {
 			var userId = 111111;
@@ -184,4 +184,5 @@ describe('Reports', () => {
 			Factory.cleanUp;	
 		});
 	});
+*/	
 });
