@@ -4,6 +4,7 @@ jobs:
     working_directory: ~/mn_pita
     docker:
       - image: circleci/node:latest
+      - image: circleci/mongo:latest
     steps:
       - checkout
       - run: git fetch origin staging
@@ -15,6 +16,9 @@ jobs:
           keys:
             - dependency-cache-{{ checksum "package.json" }}
             - dependency-cache-
+      - run:
+        name: Start Mongo docker image
+        command: 'docker run --name mongodb mongod --smallfiles'      
       - run:
           name: Install npm
           command: npm install
